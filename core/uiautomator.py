@@ -31,7 +31,7 @@ class Uiautomator(object):
         self.log_util = LogUtil(self.device_id, logger_name=self.device_id)
         # uiautomator2 初始化
         try:
-            init_cmd = "python -m uiautomator2 init {}".format(self.device_id)
+            init_cmd = "{} -m uiautomator2 init {}".format(PYTHON_PATH, self.device_id)
             self.log_util.info(init_cmd)
             init_process = subprocess.Popen(init_cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             while init_process.poll() is None:
