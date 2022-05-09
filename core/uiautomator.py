@@ -6,7 +6,11 @@ import time
 import traceback
 import subprocess
 import uiautomator2 as u2
-from log_util import LogUtil
+from util.log_util import LogUtil
+
+
+# 自备 python 环境
+PYTHON_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../venv/Scripts/python.exe")
 
 
 class UiautomatorException(Exception):
@@ -49,7 +53,7 @@ class Uiautomator(object):
         :param func_name: 异常的方法名
         :return: str 截图路径
         """
-        screenshot_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "screenshot")
+        screenshot_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../screenshot")
         # 创建保存目录
         if not os.path.exists(screenshot_dir):
             os.mkdir(screenshot_dir)

@@ -14,7 +14,7 @@ class LogUtil(object):
         # logger 对象设置的日志级别决定了日志能够被传递到 handler 对象
         self._logger.setLevel(logging.DEBUG)
 
-        log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "log")
+        log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../log")
 
         # 创建保存目录
         if not os.path.exists(log_dir):
