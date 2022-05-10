@@ -2,10 +2,12 @@
 # @Author   : CN-LanBao
 # -*- coding: utf-8 -*-
 import os
+import sys
 import time
 import traceback
 import subprocess
 import uiautomator2 as u2
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 from util.log_util import LogUtil
 
 

@@ -1,7 +1,6 @@
 # @Time     : 2022/5/9 16:01
 # @Author   : ShenYiFan
 # -*- coding: utf-8 -*-
-import time
 import pytest
 
 
@@ -13,14 +12,20 @@ def d(setup_and_teardown_demo):
     @Create: 2022/5/10 10:19
     :return: Uiautomator
     """
-    print("TEST START")
+    print("TEST START 屏幕已被点亮")
     yield setup_and_teardown_demo
-    print("TEST END")
+    print("TEST END 将返回主页面")
 
 
 def test_case01(d):
     assert d.check_text_exists("相机")
 
 
+@pytest.mark.skipif(True, reason="Skip demo")
+def test_case02(d):
+    assert d.check_text_exists("QQ")
+
+
+@pytest.mark.skipif(False, reason="Skip demo")
 def test_case02(d):
     assert d.check_text_exists("QQ")
