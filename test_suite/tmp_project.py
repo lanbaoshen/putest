@@ -28,4 +28,4 @@ def test_case02(d):
 
 @pytest.mark.skipif(False, reason="Skip demo")
 def test_case02(d):
-    assert d.check_text_exists("QQ")
+    d.click(100)

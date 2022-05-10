@@ -2,11 +2,13 @@
 # @Author   : ShenYiFan
 # -*- coding: utf-8 -*-
 import os
+import sys
 import subprocess
 import pytest
-from util import yaml_util
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 
 
+TEST_RESULT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "result")
 TEST_SUITE_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test_suite")
 
 
@@ -19,7 +21,7 @@ def get_device():
     """
     cmd = "adb devices | findstr /E device"
     run_out = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True).stdout.splitlines()
-    device_ids = {index: info.split()[0] for index, info in enumerate(run_out)}
+    device_ids = {str(index): info.split()[0] for index, info in enumerate(run_out)}
     return device_ids
 
 
@@ -33,29 +35,86 @@ def get_test_suites():
     key, test_suites = 0, {}
     for root, dirs, files in os.walk(TEST_SUITE_FOLDER):
         for name in files:
+            # 所有 .py 文件视为测试套件
+            if not name.endswith(".py") or "conftest.py" == name:
+                continue
             file_path = os.path.join(root, name)
-            test_suites.update({key: (file_path, file_path.replace(TEST_SUITE_FOLDER, ""))})
+            test_suites.update({str(key): (file_path, file_path.replace(TEST_SUITE_FOLDER, ""))})
             key += 1
     return test_suites
 
 
-def set_test_device(device_id):
+def select_device_and_suite():
     """
-    修改配置文件以确定当前测试设备
+    确定测试设备和测试套件
     @Author: ShenYiFan
-    @Create: 2022/5/9 16:59
-    :return: None
+    @Create: 2022/5/10 10:51
+    :return: str, tuple(绝对路径，相对路径)
     """
-    # 合并写会导致重复输入（多个 device_id）
-    yaml_dict = yaml_util.get_yaml_data()
-    yaml_dict["device_id"] = device_id
-    yaml_util.dump_yaml_data(yaml_dict)
+    # 确定测试设备
+    while True:
+        print("正在检测连接设备...")
+        devices = get_device()
+        if not devices:
+            print("未检测到连接设备！请确保存在 adb 连接设备")
+            exit(0)
+        print("获取如下连接设备, 请键入数字选择设备:\n{}".format("\n".join([" {}: {}".format(k, v) for k, v in devices.items()])))
+        key = input("选择设备: ")
+        device = devices.get(key)
+        if device:
+            print("测试设备选择为: {}\n".format(device))
+            break
+        print("不存在的设备，请重新选择\n")
+
+    # 确定测试套件
+    while True:
+        print("正在获取测试套件...")
+        test_suites = get_test_suites()
+        if not test_suites:
+            print("未检测到测试套件！请将测试套件放在 test_suite 目录下")
+            exit(0)
+        print("获取如下套件, 请键入数字选择套件:\n{}".format("\n".join([" {}: {}".format(k, v[-1]) for k, v in test_suites.items()])))
+        key = input("选择测试套件: ")
+        test_suite = test_suites.get(key)
+        if test_suite:
+            print("测试套件选择为: {}\n".format(test_suite[-1]))
+            break
+        print("不存在的测试套件, 请重新选择\n")
+
+    return device, test_suite
+
+
+def get_task_id():
+    """
+    生成不会重复的自增 task id
+    @Author: ShenYiFan
+    @Create: 2022/5/10 17:20
+    :return: str
+    """
+    _, exists_dir, _ = next(os.walk(TEST_RESULT_FOLDER))
+    max_name = -1
+    for name in exists_dir:
+        try:
+            name = int(name)
+            max_name = name if name > max_name else max_name
+        except ValueError:
+            continue
+    return str(max_name + 1)
 
 
 def main():
-    # cmd = ""
-    # pytest.main(cmd)
-    set_test_device("181827V00500102")
+    title = ("="*30, "PUTEST", "="*30)
+    print(title)
+
+    device, test_suite = select_device_and_suite()
+    task_id = get_task_id()
+    print("本次任务 ID 为 {} \n测试开始...".format(task_id))
+
+    # TODO 丰富入参控制
+    cmd = "-sv {} --device_id {} --task_id {}".format(test_suite[0], device, task_id)
+    pytest.main(cmd.split())
+
+    print("测试结束 \n{}".format(title))
 
 
 if __name__ == '__main__':

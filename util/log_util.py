@@ -9,16 +9,16 @@ import logging.handlers
 
 class LogUtil(object):
 
-    def __init__(self, file_name, logger_name=None):
+    def __init__(self, file_name, task_id, logger_name=None):
         self._logger = logging.getLogger(logger_name)
         # logger 对象设置的日志级别决定了日志能够被传递到 handler 对象
         self._logger.setLevel(logging.DEBUG)
 
-        log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../log")
+        log_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../result/{}/log".format(task_id))
 
         # 创建保存目录
         if not os.path.exists(log_dir):
-            os.mkdir(log_dir)
+            os.makedirs(log_dir)
         elif not os.path.isdir(log_dir):
             log_dir = os.path.dirname(os.path.abspath(__file__))
 

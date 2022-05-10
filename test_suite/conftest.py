@@ -19,6 +19,7 @@ def pytest_addoption(parser):
     :return: None
     """
     parser.addoption("--device_id", action="store", type=str)
+    parser.addoption("--task_id", action="store", type=str)
 
 
 @pytest.fixture(scope="function")
@@ -32,7 +33,8 @@ def device_id(request):
     global d
     # d 每次执行测试只需要实例化一次，所以这样写
     if not d:
-        d = Uiautomator(request.config.getoption("--device_id"))
+        # 默认使用 root 日志器，多次引用会导致 log 重复输出
+        d = Uiautomator(request.config.getoption("--device_id"), request.config.getoption("--task_id"))
     return d
 
 

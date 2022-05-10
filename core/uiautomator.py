@@ -27,10 +27,11 @@ class UiautomatorException(Exception):
 
 class Uiautomator(object):
 
-    def __init__(self, device_id):
-        self.device_id = device_id
+    def __init__(self, device_id, task_id):
+        # task 用于生成输出目录
+        self.device_id, self.task_id = device_id, task_id
         # 为设备创建 logger 对象
-        self.log_util = LogUtil(self.device_id, logger_name=self.device_id)
+        self.log_util = LogUtil(self.device_id, self.task_id, logger_name=self.device_id)
         # uiautomator2 初始化
         try:
             init_cmd = "{} -m uiautomator2 init {}".format(PYTHON_PATH, self.device_id)
@@ -55,10 +56,11 @@ class Uiautomator(object):
         :param func_name: 异常的方法名
         :return: str 截图路径
         """
-        screenshot_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../screenshot")
+        screenshot_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                      "../result/{}/screenshot".format(self.task_id))
         # 创建保存目录
         if not os.path.exists(screenshot_dir):
-            os.mkdir(screenshot_dir)
+            os.makedirs(screenshot_dir)
         elif not os.path.isdir(screenshot_dir):
             screenshot_dir = os.path.dirname(os.path.abspath(__file__))
         # 保存截图
