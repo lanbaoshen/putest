@@ -10,7 +10,7 @@ from util.log_util import LogUtil
 
 
 # 自备 python 环境
-PYTHON_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../venv/Scripts/python.exe")
+PYTHON_PATH = "python"
 
 
 class UiautomatorException(Exception):
