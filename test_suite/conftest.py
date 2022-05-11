@@ -38,12 +38,13 @@ def device_id(request):
     return d
 
 
-# TODO 之前是从文件中读取 id，所以用装饰器 @pytest.mark.parametrize("d", d)
+# TODO 若从文件中读取 id，用装饰器 @pytest.mark.parametrize("d", d)
 @pytest.fixture(scope="function")
 def setup_and_teardown_demo(device_id):
     """
     通用前置：亮屏
     通用收尾：回到主页面
+    d 为 UI 测试的核心对象，除非知道后果否则请勿修改
     @Author: ShenYiFan
     @Create: 2022/5/9 17:32
     :return: Uiautomator

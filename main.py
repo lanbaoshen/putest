@@ -1,6 +1,9 @@
 # @Time     : 2022/5/9 16:03
 # @Author   : ShenYiFan
 # -*- coding: utf-8 -*-
+# 入口文件，若想直接使用 Uiautomator 自动初始化，自带的 log 模块和 task 控制等功能，请通过执行本 py 文件启动测试
+# 若想修改代码实现其他自定义，请确保您知道修改的后果
+
 import os
 import sys
 import subprocess
@@ -144,6 +147,12 @@ def allure_report(allure_dir):
 
 
 def main():
+    """
+    本入口函数仅支持设定好的执行方式，个性化需求请自行修改代码
+    @Author: ShenYiFan
+    @Create: 2022/5/11 16:32
+    :return: None
+    """
     print(TITLE)
     device, test_suite = select_device_and_suite()
     allure_dir = start_test(device, test_suite)
