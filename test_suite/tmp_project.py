@@ -23,17 +23,37 @@ def d(setup_and_teardown_demo):
 
 
 @allure.severity("normal")
+@allure.feature("功能测试")
+@allure.story("检查页面相机文本控件")
 def test_case01(d):
     assert d.check_text_exists("相机")
 
 
+@allure.severity("blocker")
+@allure.feature("功能测试")
+@allure.story("检查页面 QQ 文本控件")
 @pytest.mark.skipif(True, reason="Skip if demo")
 def test_case02(d):
     assert d.check_text_exists("QQ")
 
 
-
+@allure.severity("blocker")
+@allure.feature("API 测试")
+@allure.story("click 参数不正确")
+@allure.step("click 失败")
 @pytest.mark.skipif(False, reason="Skip if demo")
-def test_case02(d):
+def test_case03(d):
     # 必定 Fail 的命令
     d.click(100)
+
+
+@allure.severity("normal")
+@allure.title("Case 04 测试正确的 click")
+@allure.feature("API 测试")
+@allure.story("click 参数正确")
+def test_case04(d):
+    # 必定 Fail 的命令
+    with allure.step("第一次 click"):
+        d.click(100, 100)
+    with allure.step("第二次 click"):
+        d.click(200, 200)

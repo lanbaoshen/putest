@@ -4,6 +4,7 @@
 import os
 import sys
 import time
+import allure
 import traceback
 import subprocess
 import uiautomator2 as u2
@@ -95,7 +96,11 @@ class Uiautomator(object):
                                                                 traceback.format_exc())
                 self.log_util.error(msg)
                 # 保存截图
-                self.log_util.error("The path of fail time screenshot is {}".format(self._fail_screenshot(func_name)))
+                screenshot_path = self._fail_screenshot(func_name)
+                self.log_util.error("The path of fail time screenshot is {}".format(screenshot_path))
+                # 添加至 allure 报告
+                with open(screenshot_path, "rb") as f:
+                    allure.attach(f.read(), func_name, allure.attachment_type.PNG)
                 raise UiautomatorException(msg)
             else:
                 msg = "{}, {}({}), {}".format(self.device_id, func_name, params, func_return)
