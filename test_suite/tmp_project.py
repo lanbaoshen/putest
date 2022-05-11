@@ -57,3 +57,5 @@ def test_case04(d):
         d.click(100, 100)
     with allure.step("第二次 click"):
         d.click(200, 200)
+        d.log_util.debug("Debug信息")
+        d.log_util.info("INFO 信息")
