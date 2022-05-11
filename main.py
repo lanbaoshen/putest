@@ -8,6 +8,7 @@ import pytest
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 
 
+TITLE = "{0} PUTEST {0}".format("=" * 30)
 TEST_RESULT_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "result")
 TEST_SUITE_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test_suite")
 
@@ -102,19 +103,52 @@ def get_task_id():
     return str(max_name + 1)
 
 
-def main():
-    title = ("="*30, "PUTEST", "="*30)
-    print(title)
-
-    device, test_suite = select_device_and_suite()
+def start_test(device, test_suite):
+    """
+    启动 pytest
+    @Author: ShenYiFan
+    @Create: 2022/5/11 13:40
+    :param device: 测试设备
+    :param test_suite: 测试套件
+    :return: str
+    """
     task_id = get_task_id()
+    allure_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "result", task_id, "allure")
     print("本次任务 ID 为 {} \n测试开始...".format(task_id))
 
     # TODO 丰富入参控制
-    cmd = "-sv {} --device_id {} --task_id {}".format(test_suite[0], device, task_id)
+    cmd = "-sv {} --device_id {} --task_id {} --alluredir={}".format(test_suite[0], device, task_id, allure_dir)
     pytest.main(cmd.split())
+    return allure_dir
 
-    print("测试结束 \n{}".format(title))
+
+def allure_report(allure_dir):
+    """
+    生成 allure 报告
+    @Author: ShenYiFan
+    @Create: 2022/5/11 13:49
+    :param allure_dir: allure 目录
+    :return: None
+    """
+    # 生成查看报告的 bat 文件
+    bat_path = os.path.join(allure_dir, "..", "allure_report.bat")
+    cmd = "echo allure serve allure> {}".format(bat_path)
+    subprocess.run(cmd, shell=True, timeout=10)
+
+    print("测试结束，是否查看 html 报告？")
+    if input("y or yes\n").upper() in ("y", "Y", "yes", "YES"):
+        cmd = "allure serve {}".format(allure_dir)
+        subprocess.Popen(cmd, shell=True)
+    else:
+        print("若稍后想查看报告，请执行 result/task id 目录下 allure_report.bat 文件")
+
+
+def main():
+    print(TITLE)
+    device, test_suite = select_device_and_suite()
+    allure_dir = start_test(device, test_suite)
+    allure_report(allure_dir)
+    print(TITLE)
 
 
 if __name__ == '__main__':
