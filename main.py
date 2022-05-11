@@ -139,6 +139,7 @@ def allure_report(allure_dir):
     subprocess.run(cmd, shell=True, timeout=10)
 
     print("测试结束，是否查看 html 报告？")
+    # 查看报告需要安装 allure
     if input("y or yes\n").upper() in ("y", "Y", "yes", "YES"):
         cmd = "allure serve {}".format(allure_dir)
         subprocess.Popen(cmd, shell=True)
