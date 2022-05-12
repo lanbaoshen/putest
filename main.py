@@ -1,5 +1,5 @@
 # @Time     : 2022/5/9 16:03
-# @Author   : ShenYiFan
+# @Author   : CN-LanBao
 # -*- coding: utf-8 -*-
 # 入口文件，若想直接使用 Uiautomator 自动初始化，自带的 log 模块和 task 控制等功能，请通过执行本 py 文件启动测试
 # 若想修改代码实现其他自定义，请确保您知道修改的后果
@@ -19,7 +19,7 @@ TEST_SUITE_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "te
 def get_device():
     """
     获取连接设备
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/9 16:04
     :return: dict
     """
@@ -32,7 +32,7 @@ def get_device():
 def get_test_suites():
     """
     获取已有测试套件
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/9 16:08
     :return: dict{key: (绝对路径, 相对路径)}
     """
@@ -51,7 +51,7 @@ def get_test_suites():
 def select_device_and_suite():
     """
     确定测试设备和测试套件
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/10 10:51
     :return: str, tuple(绝对路径，相对路径)
     """
@@ -91,7 +91,7 @@ def select_device_and_suite():
 def get_task_id():
     """
     生成不会重复的自增 task id
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/10 17:20
     :return: str
     """
@@ -109,7 +109,7 @@ def get_task_id():
 def start_test(device, test_suite):
     """
     启动 pytest
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/11 13:40
     :param device: 测试设备
     :param test_suite: 测试套件
@@ -128,7 +128,7 @@ def start_test(device, test_suite):
 def allure_report(allure_dir):
     """
     生成 allure 报告
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/11 13:49
     :param allure_dir: allure 目录
     :return: None
@@ -150,7 +150,7 @@ def allure_report(allure_dir):
 def main():
     """
     本入口函数仅支持设定好的执行方式，个性化需求请自行修改代码
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/11 16:32
     :return: None
     """

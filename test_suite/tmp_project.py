@@ -1,5 +1,5 @@
 # @Time     : 2022/5/9 16:01
-# @Author   : ShenYiFan
+# @Author   : CN-LanBao
 # -*- coding: utf-8 -*-
 # 测试套件示例
 # 若想通过 main.py 启动测试，测试用例请按照 pytest 函数式编写规范
@@ -13,7 +13,7 @@ import allure
 def d(setup_and_teardown_demo):
     """
     额外前置收尾，将实例化对象重命名
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/10 10:19
     :return: Uiautomator
     """

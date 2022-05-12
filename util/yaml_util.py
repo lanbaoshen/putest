@@ -1,5 +1,5 @@
 # @Time     : 2022/5/9 17:22
-# @Author   : ShenYiFan
+# @Author   : CN-LanBao
 # -*- coding: utf-8 -*-
 import os
 import yaml
@@ -12,7 +12,7 @@ YAML_CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../
 def get_yaml_data(yaml_path=YAML_CONFIG_PATH):
     """
     获取 yaml 数据
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/9 17:23
     :param yaml_path: yaml 文件路径
     :return: dict
@@ -25,7 +25,7 @@ def get_yaml_data(yaml_path=YAML_CONFIG_PATH):
 def dump_yaml_data(data, yaml_path=YAML_CONFIG_PATH):
     """
     转储 yaml 数据
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/9 17:24
     :param data: yaml 文件数据（python 对象）
     :param yaml_path: yaml 文件路径

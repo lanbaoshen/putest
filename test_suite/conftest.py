@@ -1,5 +1,5 @@
 # @Time     : 2022/5/10 9:55
-# @Author   : ShenYiFan
+# @Author   : CN-LanBao
 # -*- coding: utf-8 -*-
 import os
 import sys
@@ -14,7 +14,7 @@ d = None
 def pytest_addoption(parser):
     """
     hook 函数，增加执行参数
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/10 16:01
     :return: None
     """
@@ -26,7 +26,7 @@ def pytest_addoption(parser):
 def device_id(request):
     """
     实例化 Uiautomator
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/10 16:09
     :return: Uiautomator
     """
@@ -45,7 +45,7 @@ def setup_and_teardown_demo(device_id):
     通用前置：亮屏
     通用收尾：回到主页面
     d 为 UI 测试的核心对象，除非知道后果否则请勿修改
-    @Author: ShenYiFan
+    @Author: CN-LanBao
     @Create: 2022/5/9 17:32
     :return: Uiautomator
     """
